@@ -11,19 +11,21 @@
 
 # Productos
 Listar productos, obtener producto y filtrar por categoria
+Todas las rutas tienen soporte de paginación usando el querystring `page` y el numero
 ## Estructura JSON
 Al realizar una petición, se devolver un JSON con la siguiente estructura
 ```
 {
   "status": 200,
   "data": [{
-    	"id": 1,
-      "name": "Producto",
-      "url_image": "url",
-      "price": 2000,
-      "discount": 10,
-      "category": 1
-  }],
+        "id": 1,
+        "name": "Producto",
+        "url_image": "url",
+        "price": 2000,
+        "discount": 10,
+        "category": 1
+  }, ...],
+  "count": 57,
   "message": "Mensaje de la solicitud"
 }
 ```
@@ -34,11 +36,12 @@ Al realizar una petición, se devolver un JSON con la siguiente estructura
 **discount**: int - Descuento del Producto
 **category**: int - ID de la Categoria del Producto.
 La API revisa si es que un producto no tiene URL, y si fuese asi, lo convierte a un string vacio `('')`. Esto tambien considera de que el campo fuese NULL.
+**count**: int - Lo utilizamos para hacer seguimiento de cuantos resultados totales tiene la consulta en si. Se usa para paginar.
 ## Rutas
 ### `GET /api/productos`
-No recibe parametros.
 Entrega la lista completa de productos en la base de datos.
 ### Respuesta
+Sin parametro
 ```
 {
   "status": 200,
@@ -50,6 +53,7 @@ Entrega la lista completa de productos en la base de datos.
       "discount": 10,
       "category": 1
   }, ...],
+  "count": 57,
   "message": "Obtenidos productos"
 }
 ```
@@ -68,6 +72,7 @@ Entrega todos los productos que tengan un nombre similar.
       "discount": 60,
       "category": 6
   }, ...],
+  "count": 5,
   "message": "Obtenidos productos filtrados por nombres"
 }
 ```
@@ -88,6 +93,7 @@ Entrega la lista de productos que corresponden a la categoria.
       "discount": 0,
       "category": 4
   }, ...],
+  "count": 10,
   "message": "Obtenidos productos filtrados por categoria seleccionada"
 }
 ```
@@ -100,7 +106,7 @@ Al realizar una petición, se devolver un JSON con la siguiente estructura
   "status": 200,
   "data": [{
     	"id": 1,
-      "name": "Energetica"
+        "name": "Energetica"
   }, ...],
   "message": "Mensaje de la solicitud"
 }
@@ -117,7 +123,7 @@ Entrega la lista de categorias disponibles
   "status": 200,
   "data": [{
     	"id": 1,
-      "name": "Energetica"
+        "name": "Energetica"
   }, ...],
   "message": "Obtenidas categorias"
 }
