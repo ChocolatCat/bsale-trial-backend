@@ -53,6 +53,24 @@ Entrega la lista completa de productos en la base de datos.
   "message": "Obtenidos productos"
 }
 ```
+### `GET /api/productos/search?name=text`
+Recibe un parametro name donde señala la busqueda.
+Entrega todos los productos que tengan un nombre similar.
+### Respuesta
+```
+{
+  "status": 200,
+  "data": [{
+    	"id": 6,
+      "name": "Producto 6",
+      "url_image": "url",
+      "price": 6000,
+      "discount": 60,
+      "category": 6
+  }, ...],
+  "message": "Obtenidos productos filtrados por nombres"
+}
+```
 ### `GET /api/productos/filter/:id`
 Recibe de parametro la ID de una categoria.
 Entrega la lista de productos que corresponden a la categoria.
@@ -70,7 +88,7 @@ Entrega la lista de productos que corresponden a la categoria.
       "discount": 0,
       "category": 4
   }, ...],
-  "message": "Obtenidos productos filtrados"
+  "message": "Obtenidos productos filtrados por categoria seleccionada"
 }
 ```
 # Categorias

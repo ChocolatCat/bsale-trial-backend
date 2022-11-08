@@ -19,18 +19,25 @@ router.get('/', function(req, res){
     })
 });
 
-//Obtener producto especifico
-router.get('/:id', function(req, res){
-    let sql = `SELECT id, name, price, discount, category,
-    IFNULL(url_image, '') url_image FROM product WHERE id = ? ORDER BY category`;
-    db.query(sql, [req.params.id], function(err, data, fields){
+//Obtener busqueda
+router.get('/search', function(req, res){
+    let search = req.query.name || '';
+    let sql = search == '' ? `SELECT id, name, price, discount, category,
+        IFNULL(url_image, '') url_image
+    FROM product ORDER BY category` : 
+    `SELECT id, name, price, discount, category,
+    IFNULL(url_image, '') url_image
+    FROM product 
+    WHERE name LIKE %?%
+    ORDER BY category`;
+    db.query(sql, [search], function(err, data, fields){
         if(err){
-            throw err;
+            console.log(err);
         }
         res.json({
             status: 200,
             data,
-            message: 'Obtenido producto'
+            message: 'Obtenidos productos filtrados por nombre'
         })
     })
 });
@@ -46,7 +53,7 @@ router.get('/filter/:id', function(req, res){
         res.json({
             status: 200,
             data,
-            message: 'Obtenidos productos filtrados'
+            message: 'Obtenidos productos filtrados por categoria seleccionada'
         })
     })
 });
