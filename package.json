@@ -4,7 +4,8 @@
   "description": "Backend para la prueba de BSale",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "author": "Chocola",
   "license": "ISC",
