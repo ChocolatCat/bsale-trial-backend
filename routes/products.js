@@ -4,7 +4,9 @@ const db = require('../db');
 
 //Obtener lista de productos
 router.get('/', function(req, res){
-    let sql = `SELECT * FROM product ORDER BY category`;
+    let sql = `SELECT id, name, price, discount, category,
+        IFNULL(url_image, '') url_image
+    FROM product ORDER BY category`;
     db.query(sql, function(err, data, fields){
         if(err){
             console.log(err);
@@ -19,8 +21,9 @@ router.get('/', function(req, res){
 
 //Obtener lista de productos
 router.get('/:id', function(req, res){
-    let sql = `SELECT * FROM product WHERE id = ${req.params.id} ORDER BY category`;
-    db.query(sql, function(err, data, fields){
+    let sql = `SELECT id, name, price, discount, category,
+    IFNULL(url_image, '') url_image FROM product WHERE id = ? ORDER BY category`;
+    db.query(sql, [req.params.id], function(err, data, fields){
         if(err){
             throw err;
         }
@@ -34,8 +37,9 @@ router.get('/:id', function(req, res){
 
 //Obtener lista de productos de una sola categoria
 router.get('/filter/:id', function(req, res){
-    let sql = `SELECT * FROM product WHERE category = ${req.params.id} ORDER BY category`;
-    db.query(sql, function(err, data, fields){
+    let sql = `SELECT id, name, price, discount, category,
+    IFNULL(url_image, '') url_image FROM product WHERE category = ? ORDER BY category`;
+    db.query(sql, [req.params.id], function(err, data, fields){
         if(err){
             throw err;
         }
