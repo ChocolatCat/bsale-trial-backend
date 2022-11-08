@@ -19,7 +19,7 @@ router.get('/', function(req, res){
     })
 });
 
-//Obtener lista de productos
+//Obtener producto especifico
 router.get('/:id', function(req, res){
     let sql = `SELECT id, name, price, discount, category,
     IFNULL(url_image, '') url_image FROM product WHERE id = ? ORDER BY category`;
