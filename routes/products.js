@@ -18,22 +18,22 @@ router.get('/', function(req, res){
             });
         }
         count = data.length;
-    });
-    if(page > 0){
-        sql += ` LIMIT ${(page-1) * 9}, 9`;
-    }
-    db.query(sql, function(err, data, fields){
-        if(err){
-            res.json({
-                status: 500,
-                message: `Ha sucedido un error: ${err}`
-            });
+        if(page > 0){
+            sql += ` LIMIT ${(page-1) * 9}, 9`;
         }
-        res.json({
-            status: 200,
-            data,
-            count,
-            message: page > 0 ? 'Obtenidos productos paginados' : 'Obtenidos productos'
+        db.query(sql, function(err, data, fields){
+            if(err){
+                res.json({
+                    status: 500,
+                    message: `Ha sucedido un error: ${err}`
+                });
+            }
+            res.json({
+                status: 200,
+                data,
+                count,
+                message: page > 0 ? 'Obtenidos productos paginados' : 'Obtenidos productos'
+            });
         });
     });
 });
@@ -60,24 +60,24 @@ router.get('/search', function(req, res){
             });
         }
         count = data.length;
-    });
-    if(page > 0){
-        sql += ` LIMIT ${(page-1) * 9}, 9`;
-    }
-    db.query(sql, function(err, data, fields){
-        if(err){
-            res.json({
-                status: 500,
-                message: `Ha sucedido un error: ${err}`
-            });
+        if(page > 0){
+            sql += ` LIMIT ${(page-1) * 9}, 9`;
         }
-        res.json({
-            status: 200,
-            data,
-            count,
-            message: 'Obtenidos productos filtrados por nombre'
+        db.query(sql, function(err, data, fields){
+            if(err){
+                res.json({
+                    status: 500,
+                    message: `Ha sucedido un error: ${err}`
+                });
+            }
+            res.json({
+                status: 200,
+                data,
+                count,
+                message: 'Obtenidos productos filtrados por nombre'
+            })
         })
-    })
+    });
 });
 
 //Obtener lista de productos de una sola categoria
@@ -95,24 +95,24 @@ router.get('/filter/:id', function(req, res){
             });
         }
         count = data.length;
-    });
-    if(page > 0){
-        sql += ` LIMIT ${(page-1) * 9}, 9`;
-    }
-    db.query(sql, [req.params.id], function(err, data, fields){
-        if(err){
-            res.json({
-                status: 500,
-                message: `Ha sucedido un error: ${err}`
-            });
+        if(page > 0){
+            sql += ` LIMIT ${(page-1) * 9}, 9`;
         }
-        res.json({
-            status: 200,
-            data,
-            count,
-            message: 'Obtenidos productos filtrados por categoria seleccionada'
+        db.query(sql, [req.params.id], function(err, data, fields){
+            if(err){
+                res.json({
+                    status: 500,
+                    message: `Ha sucedido un error: ${err}`
+                });
+            }
+            res.json({
+                status: 200,
+                data,
+                count,
+                message: 'Obtenidos productos filtrados por categoria seleccionada'
+            })
         })
-    })
+    });
 });
 
 //exportamos las rutas
