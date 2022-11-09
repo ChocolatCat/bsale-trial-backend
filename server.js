@@ -5,7 +5,12 @@ const bodyParser = require('body-parser');
 //init
 const app = express();
 const port = process.env.PORT || 3000;
-app.use(cors());
+
+let corsOptions = {
+    origin: ['http://localhost/3000', 'https://chocolatcat.github.io/bsale-trial-frontend/']
+}
+
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 //routers
