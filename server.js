@@ -7,7 +7,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 let corsOptions = {
-    origin: ['http://localhost/3000', 'https://chocolatcat.github.io/bsale-trial-frontend/']
+    origin: '*'
 }
 
 app.use(cors(corsOptions));
