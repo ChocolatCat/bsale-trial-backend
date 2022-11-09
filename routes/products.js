@@ -87,7 +87,7 @@ router.get('/filter/:id', function(req, res){
     IFNULL(url_image, '') url_image FROM product WHERE category = ? ORDER BY category`;
     //Obtenemos el total para enviarlo
     let count = 0;
-    db.query(sql, function(err, data, fields){
+    db.query(sql, [req.params.id], function(err, data, fields){
         if(err){
             res.json({
                 status: 500,
