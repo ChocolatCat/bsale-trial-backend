@@ -12,7 +12,10 @@ router.get('/', function(req, res){
     let count = 0;
     db.query(sql, function(err, data, fields){
         if(err){
-            console.log(err);
+            res.json({
+                status: 500,
+                message: `Ha sucedido un error: ${err}`
+            });
         }
         count = data.length;
     });
@@ -21,15 +24,18 @@ router.get('/', function(req, res){
     }
     db.query(sql, function(err, data, fields){
         if(err){
-            console.log(err);
+            res.json({
+                status: 500,
+                message: `Ha sucedido un error: ${err}`
+            });
         }
         res.json({
             status: 200,
             data,
             count,
             message: page > 0 ? 'Obtenidos productos paginados' : 'Obtenidos productos'
-        })
-    })
+        });
+    });
 });
 
 //Obtener busqueda
@@ -48,7 +54,10 @@ router.get('/search', function(req, res){
     let count = 0;
     db.query(sql, function(err, data, fields){
         if(err){
-            console.log(err);
+            res.json({
+                status: 500,
+                message: `Ha sucedido un error: ${err}`
+            });
         }
         count = data.length;
     });
@@ -57,7 +66,10 @@ router.get('/search', function(req, res){
     }
     db.query(sql, function(err, data, fields){
         if(err){
-            console.log(err);
+            res.json({
+                status: 500,
+                message: `Ha sucedido un error: ${err}`
+            });
         }
         res.json({
             status: 200,
@@ -77,7 +89,10 @@ router.get('/filter/:id', function(req, res){
     let count = 0;
     db.query(sql, function(err, data, fields){
         if(err){
-            console.log(err);
+            res.json({
+                status: 500,
+                message: `Ha sucedido un error: ${err}`
+            });
         }
         count = data.length;
     });
@@ -86,7 +101,10 @@ router.get('/filter/:id', function(req, res){
     }
     db.query(sql, [req.params.id], function(err, data, fields){
         if(err){
-            throw err;
+            res.json({
+                status: 500,
+                message: `Ha sucedido un error: ${err}`
+            });
         }
         res.json({
             status: 200,

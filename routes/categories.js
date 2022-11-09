@@ -7,7 +7,10 @@ router.get('/', function(req, res){
     let sql = `SELECT * FROM category`;
     db.query(sql, function(err, data, fields){
         if(err){
-            console.log(err);
+            res.json({
+                status: 500,
+                message: `Ha sucedido un error: ${err}`
+            });
         }
         res.json({
             status: 200,
