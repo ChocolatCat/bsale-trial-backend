@@ -1,33 +1,41 @@
 const express = require('express');
 const router = express.Router();
+//Importamos nuestra conexion a la BD
 const db = require('../db');
 
 //Obtener lista de productos y/o paginados
 router.get('/', function(req, res){
+    //Si recibimos un query con ?page=, procesamos paginación. Le da un doble uso a la ruta
     let page = req.query.page  || 0;
+    //Recuperamos los datos de la tabla que nos interesan
     let sql = `SELECT id, name, price, discount, category,
     IFNULL(url_image, '') url_image
     FROM product ORDER BY category`;
     //Obtenemos el total para enviarlo y asi poder paginar
     let count = 0;
     db.query(sql, function(err, data, fields){
+        //Manejo de errores
         if(err){
             res.json({
                 status: 500,
                 message: `Ha sucedido un error: ${err}`
             });
         }
+        //Obtenemos la cantidad de datos que trabajaremos. Esto se usara en la paginacion
         count = data.length;
+        //Si usaremos paginación, agregamos un LIMIT a la consulta para recibir solo 9 resultados a la vez. El page-1*9 nos da el offset de datos para trabajar
         if(page > 0){
             sql += ` LIMIT ${(page-1) * 9}, 9`;
         }
         db.query(sql, function(err, data, fields){
+            //Control de errores
             if(err){
                 res.json({
                     status: 500,
                     message: `Ha sucedido un error: ${err}`
                 });
             }
+            //Devolvemos un json con el status de la conexion, los datos, el numero de datos total y un mensaje del proceso
             res.json({
                 status: 200,
                 data,
@@ -40,8 +48,11 @@ router.get('/', function(req, res){
 
 //Obtener busqueda
 router.get('/search', function(req, res){
+    //Si la busqueda no tiene texto, devolvemos todos los productos
     let search = req.query.name || '';
+    //Para paginación
     let page = req.query.page || 0;
+    //Operador discrimina si tenemos texto que buscar o no, para agregar el LIKE a la consulta
     let sql = search == '' ? `SELECT id, name, price, discount, category,
         IFNULL(url_image, '') url_image
     FROM product ORDER BY category` : 
@@ -53,13 +64,16 @@ router.get('/search', function(req, res){
     //Obtenemos el total para enviarlo
     let count = 0;
     db.query(sql, function(err, data, fields){
+        //Manejo de errores
         if(err){
             res.json({
                 status: 500,
                 message: `Ha sucedido un error: ${err}`
             });
         }
+        //Total de datos
         count = data.length;
+        //Si usaremos paginacion o no
         if(page > 0){
             sql += ` LIMIT ${(page-1) * 9}, 9`;
         }
@@ -70,6 +84,7 @@ router.get('/search', function(req, res){
                     message: `Ha sucedido un error: ${err}`
                 });
             }
+            //Recibimos los datos, el total de ellos y un mensaje de aceptacion
             res.json({
                 status: 200,
                 data,
@@ -82,11 +97,14 @@ router.get('/search', function(req, res){
 
 //Obtener lista de productos de una sola categoria
 router.get('/filter/:id', function(req, res){
+    //Revisamos si es que usaremos paginacion
     let page = req.query.page || 0;
+    //Buscamos la categoria en especifico. Ofuscamos el dato
     let sql = `SELECT id, name, price, discount, category,
     IFNULL(url_image, '') url_image FROM product WHERE category = ? ORDER BY category`;
     //Obtenemos el total para enviarlo
     let count = 0;
+    //Aca recibimos el dato ofuscado
     db.query(sql, [req.params.id], function(err, data, fields){
         if(err){
             res.json({
@@ -94,17 +112,21 @@ router.get('/filter/:id', function(req, res){
                 message: `Ha sucedido un error: ${err}`
             });
         }
+        //Total de datos
         count = data.length;
+        //Usaremos paginacion o no
         if(page > 0){
             sql += ` LIMIT ${(page-1) * 9}, 9`;
         }
         db.query(sql, [req.params.id], function(err, data, fields){
+            //Errores
             if(err){
                 res.json({
                     status: 500,
                     message: `Ha sucedido un error: ${err}`
                 });
             }
+            //Devolvemos los datos, numero y mensaje de aceptacion
             res.json({
                 status: 200,
                 data,
