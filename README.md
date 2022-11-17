@@ -11,16 +11,22 @@ El objetivo de este proyecto es consultar la base de datos de prueba de BSale pa
 * CORS
 * BodyParser
 ## Instalar Dependencias
-Para instalar las dependencias del proyecto, ejecutar
+Para instalar las dependencias del proyecto, ejecutar  
 `npm install`
 ## Como Ejecutar
-Utilizando alguna herramienta CLI, con Node y las dependencias instaladas.
+Utilizando alguna herramienta CLI, con Node y las dependencias instaladas.  
 `npm server.js`
+### Estructura del proyecto
+La carpeta `routes` contiene las rutas y funciones encargadas de cada elemento, de acuerdo a su nombre.  
+`categories` se encarga de manejar las rutas encargadas con las Categorías.  
+`product` se encarga de manejar las rutas encargadas a los Productos.  
+`db.js` contiene el driver de MySQL.  
+`server.js` contiene el codigo para correr el servidor.
 # Productos
-Listar productos, obtener producto y filtrar por categoria
+Listar productos, obtener producto y filtrar por categoria  
 Todas las rutas tienen soporte de paginación usando el querystring `page` y el numero
 ## Estructura JSON
-Al realizar una petición, se devolver un JSON con la siguiente estructura
+Al realizar una petición, se devolver un JSON con la siguiente estructura  
 ```
 {
   "status": 200,
@@ -35,20 +41,20 @@ Al realizar una petición, se devolver un JSON con la siguiente estructura
   "count": 57,
   "message": "Mensaje de la solicitud"
 }
-```
-**id**: int - ID del producto dentro de la BD
-**name**: string - Nombre del Producto
-**url_image**: string - URL de la imagen del producto
-**price**: float - Precio del Producto
-**discount**: int - Descuento del Producto
-**category**: int - ID de la Categoria del Producto.
+```  
+**id**: int - ID del producto dentro de la BD  
+**name**: string - Nombre del Producto  
+**url_image**: string - URL de la imagen del producto  
+**price**: float - Precio del Producto  
+**discount**: int - Descuento del Producto  
+**category**: int - ID de la Categoria del Producto.  
 La API revisa si es que un producto no tiene URL, y si fuese asi, lo convierte a un string vacio `('')`. Esto tambien considera de que el campo fuese NULL.
-**count**: int - Lo utilizamos para hacer seguimiento de cuantos resultados totales tiene la consulta en si. Se usa para paginar.
+**count**: int - Lo utilizamos para hacer seguimiento de cuantos resultados totales tiene la consulta en si. Se usa para paginar.  
 ## Rutas
 ### `GET /api/productos`
-Entrega la lista completa de productos en la base de datos.
+Entrega la lista completa de productos en la base de datos.  
 ### Respuesta
-Sin parametro
+Sin parametro  
 ```
 {
   "status": 200,
@@ -84,7 +90,7 @@ Entrega todos los productos que tengan un nombre similar.
 }
 ```
 ### `GET /api/productos/filter/:id`
-Recibe de parametro la ID de una categoria.
+Recibe de parametro la ID de una categoria.  
 Entrega la lista de productos que corresponden a la categoria.
 ### Ejemplo
 `GET /api/productos/filter/4`
@@ -118,11 +124,11 @@ Al realizar una petición, se devolver un JSON con la siguiente estructura
   "message": "Mensaje de la solicitud"
 }
 ```
-**id**: int - ID de la categoria dentro de la BD
-**name**: string - Nombre de la categoria
+**id**: int - ID de la categoria dentro de la BD  
+**name**: string - Nombre de la categoria  
 ## Rutas
 ### `GET /api/categorias`
-No recibe parametros
+No recibe parametros  
 Entrega la lista de categorias disponibles
 ### Respuesta
 ```
