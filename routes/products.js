@@ -17,10 +17,7 @@ router.get('/', function(req, res){
     db.query(sql, function(err, data, fields){
         //Manejo de errores
         if(err){
-            console.log({
-                status: 500,
-                message: `Ha sucedido un error: ${err}`
-            });
+            res.sendStatus(500);
         }
         //Obtenemos la cantidad de datos que trabajaremos. Esto se usara en la paginacion
         count = data.length;
@@ -30,10 +27,7 @@ router.get('/', function(req, res){
         db.query(sql, [pagination > 0 ? pagination : 0], function(err, data, fields){
             //Control de errores
             if(err){
-                res.json({
-                    status: 500,
-                    message: `Ha sucedido un error: ${err}`
-                });
+                res.sendStatus(500);
             }
             //Devolvemos un json con el status de la conexion, los datos, el numero de datos total y un mensaje del proceso
             res.json({
@@ -66,10 +60,7 @@ router.get('/search', function(req, res){
     db.query(sql, [`%${search}%`], function(err, data, fields){
         //Manejo de errores
         if(err){
-            console.log({
-                status: 500,
-                message: `Ha sucedido un error: ${err}`
-            });
+            res.sendStatus(500);
         }
         //Total de datos
         count = data.length;
@@ -77,10 +68,7 @@ router.get('/search', function(req, res){
         let pagination = (page-1) * 9;
         db.query(sql, [`%${search}%`, pagination > 0 ? pagination : 0], function(err, data, fields){
             if(err){
-                console.log({
-                    status: 500,
-                    message: `Ha sucedido un error: ${err}`
-                });
+                res.sendStatus(500);
             }
             //Recibimos los datos, el total de ellos y un mensaje de aceptacion
             res.json({
@@ -105,10 +93,7 @@ router.get('/filter/:id', function(req, res){
     //Aca recibimos el dato ofuscado
     db.query(sql, [req.params.id], function(err, data, fields){
         if(err){
-            console.log({
-                status: 500,
-                message: `Ha sucedido un error: ${err}`
-            });
+            res.sendStatus(500);
         }
         //Total de datos
         count = data.length;
@@ -118,10 +103,7 @@ router.get('/filter/:id', function(req, res){
         db.query(sql, [req.params.id, pagination > 0 ? pagination : 0], function(err, data, fields){
             //Errores
             if(err){
-                console.log({
-                    status: 500,
-                    message: `Ha sucedido un error: ${err}`
-                });
+                res.sendStatus(500);
             }
             //Devolvemos los datos, numero y mensaje de aceptacion
             res.json({
