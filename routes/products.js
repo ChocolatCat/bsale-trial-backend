@@ -68,7 +68,12 @@ router.get('/search', function(req, res){
         let pagination = (page-1) * 9;
         db.query(sql, [`%${search}%`, pagination > 0 ? pagination : 0], function(err, data, fields){
             if(err){
-                res.sendStatus(500);
+                res.json({
+                    status: 500,
+                    data: [],
+                    count: 0,
+                    message: 'Error de conexion'
+                });
             }
             //Recibimos los datos, el total de ellos y un mensaje de aceptacion
             res.json({

@@ -1,4 +1,6 @@
 # bsale-trial-backend
+## Objetivo
+El objetivo de este proyecto es consultar la base de datos de prueba de BSale para poder exhibir los productos que estan en ella. Para esto, se montó un backend hecho en Express.js, el cual sera consumido por el [Frontend](https://github.com/chocolatcat/bsale-trial-frontend)
 ## Tecnologias usadas
 * ExpressJS
 * MySQL
@@ -8,7 +10,12 @@
 * MySQL
 * CORS
 * BodyParser
-
+## Instalar Dependencias
+Para instalar las dependencias del proyecto, ejecutar
+`npm install`
+## Como Ejecutar
+Utilizando alguna herramienta CLI, con Node y las dependencias instaladas.
+`npm server.js`
 # Productos
 Listar productos, obtener producto y filtrar por categoria
 Todas las rutas tienen soporte de paginación usando el querystring `page` y el numero
