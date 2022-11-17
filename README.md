@@ -48,7 +48,7 @@ Al realizar una petición, se devolver un JSON con la siguiente estructura
 **price**: float - Precio del Producto  
 **discount**: int - Descuento del Producto  
 **category**: int - ID de la Categoria del Producto.  
-La API revisa si es que un producto no tiene URL, y si fuese asi, lo convierte a un string vacio `('')`. Esto tambien considera de que el campo fuese NULL.
+La API revisa si es que un producto no tiene URL, y si fuese asi, lo convierte a un string vacio `('')`. Esto tambien considera de que el campo fuese NULL.  
 **count**: int - Lo utilizamos para hacer seguimiento de cuantos resultados totales tiene la consulta en si. Se usa para paginar.  
 ## Rutas
 ### `GET /api/productos`
