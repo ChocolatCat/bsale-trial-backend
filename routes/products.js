@@ -11,6 +11,7 @@ router.get('/', function(req, res){
     let sql = `SELECT id, name, price, discount, category,
     IFNULL(url_image, '') url_image
     FROM product ORDER BY category`;
+    
     //Obtenemos el total para enviarlo y asi poder paginar
     let count = 0;
     db.query(sql, function(err, data, fields){
@@ -24,10 +25,9 @@ router.get('/', function(req, res){
         //Obtenemos la cantidad de datos que trabajaremos. Esto se usara en la paginacion
         count = data.length;
         //Si usaremos paginación, agregamos un LIMIT a la consulta para recibir solo 9 resultados a la vez. El page-1*9 nos da el offset de datos para trabajar
-        if(page > 0){
-            sql += ` LIMIT ${(page-1) * 9}, 9`;
-        }
-        db.query(sql, function(err, data, fields){
+        sql += ` LIMIT ?, 9`;
+        let pagination = (page-1) * 9;
+        db.query(sql, [pagination > 0 ? pagination : 0], function(err, data, fields){
             //Control de errores
             if(err){
                 res.json({
@@ -40,7 +40,7 @@ router.get('/', function(req, res){
                 status: 200,
                 data,
                 count,
-                message: page > 0 ? 'Obtenidos productos paginados' : 'Obtenidos productos'
+                message: pagination > 0 ? 'Obtenidos productos paginados' : 'Obtenidos productos'
             });
         });
     });
@@ -59,11 +59,11 @@ router.get('/search', function(req, res){
     `SELECT id, name, price, discount, category,
     IFNULL(url_image, '') url_image
     FROM product 
-    WHERE name LIKE '%${search}%'
+    WHERE name LIKE ?
     ORDER BY category`;
     //Obtenemos el total para enviarlo
     let count = 0;
-    db.query(sql, function(err, data, fields){
+    db.query(sql, [`%${search}%`], function(err, data, fields){
         //Manejo de errores
         if(err){
             res.json({
@@ -73,11 +73,9 @@ router.get('/search', function(req, res){
         }
         //Total de datos
         count = data.length;
-        //Si usaremos paginacion o no
-        if(page > 0){
-            sql += ` LIMIT ${(page-1) * 9}, 9`;
-        }
-        db.query(sql, function(err, data, fields){
+        sql += ` LIMIT ?, 9`;
+        let pagination = (page-1) * 9;
+        db.query(sql, [`%${search}%`, pagination > 0 ? pagination : 0], function(err, data, fields){
             if(err){
                 res.json({
                     status: 500,
@@ -115,10 +113,9 @@ router.get('/filter/:id', function(req, res){
         //Total de datos
         count = data.length;
         //Usaremos paginacion o no
-        if(page > 0){
-            sql += ` LIMIT ${(page-1) * 9}, 9`;
-        }
-        db.query(sql, [req.params.id], function(err, data, fields){
+        sql += ` LIMIT ?, 9`;
+        let pagination = (page-1) * 9;
+        db.query(sql, [req.params.id, pagination > 0 ? pagination : 0], function(err, data, fields){
             //Errores
             if(err){
                 res.json({
