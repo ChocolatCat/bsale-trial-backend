@@ -17,7 +17,7 @@ router.get('/', function(req, res){
     db.query(sql, function(err, data, fields){
         //Manejo de errores
         if(err){
-            res.json({
+            console.log({
                 status: 500,
                 message: `Ha sucedido un error: ${err}`
             });
@@ -66,7 +66,7 @@ router.get('/search', function(req, res){
     db.query(sql, [`%${search}%`], function(err, data, fields){
         //Manejo de errores
         if(err){
-            res.json({
+            console.log({
                 status: 500,
                 message: `Ha sucedido un error: ${err}`
             });
@@ -77,7 +77,7 @@ router.get('/search', function(req, res){
         let pagination = (page-1) * 9;
         db.query(sql, [`%${search}%`, pagination > 0 ? pagination : 0], function(err, data, fields){
             if(err){
-                res.json({
+                console.log({
                     status: 500,
                     message: `Ha sucedido un error: ${err}`
                 });
@@ -105,7 +105,7 @@ router.get('/filter/:id', function(req, res){
     //Aca recibimos el dato ofuscado
     db.query(sql, [req.params.id], function(err, data, fields){
         if(err){
-            res.json({
+            console.log({
                 status: 500,
                 message: `Ha sucedido un error: ${err}`
             });
@@ -118,7 +118,7 @@ router.get('/filter/:id', function(req, res){
         db.query(sql, [req.params.id, pagination > 0 ? pagination : 0], function(err, data, fields){
             //Errores
             if(err){
-                res.json({
+                console.log({
                     status: 500,
                     message: `Ha sucedido un error: ${err}`
                 });
