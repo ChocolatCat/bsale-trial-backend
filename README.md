@@ -1,6 +1,6 @@
 # bsale-trial-backend
 ## Objetivo
-El objetivo de este proyecto es consultar la base de datos de prueba de BSale para poder exhibir los productos que estan en ella. Para esto, se montó un backend hecho en Express.js, el cual sera consumido por el [Frontend](https://github.com/chocolatcat/bsale-trial-frontend)
+El objetivo de este proyecto es consultar la base de datos de prueba de BSale, la cual es proveída por ellos, para poder exhibir los productos que estan en ella. Para esto, se montó un backend hecho en Express.js, el cual sera consumido por el [Frontend](https://github.com/chocolatcat/bsale-trial-frontend)
 ## Tecnologias usadas
 * ExpressJS
 * MySQL
@@ -24,7 +24,7 @@ La carpeta `routes` contiene las rutas y funciones encargadas de cada elemento, 
 `server.js` contiene el codigo para correr el servidor.
 # Productos
 Listar productos, obtener producto y filtrar por categoria  
-Todas las rutas tienen soporte de paginación usando el querystring `page` y el numero
+Todas las rutas tienen soporte de paginación usando el querystring `page` y el numero, de tipo `int`
 ## Estructura JSON
 Al realizar una petición, se devolver un JSON con la siguiente estructura  
 ```
@@ -54,7 +54,7 @@ La API revisa si es que un producto no tiene URL, y si fuese asi, lo convierte a
 ### `GET /api/productos`
 Entrega la lista completa de productos en la base de datos.  
 ### Respuesta
-Sin parametro  
+Sin parametro por defecto  
 ```
 {
   "status": 200,
@@ -72,7 +72,8 @@ Sin parametro
 ```
 ### `GET /api/productos/search?name=text`
 Recibe un parametro name donde señala la busqueda.
-Entrega todos los productos que tengan un nombre similar.
+Entrega todos los productos que tengan un nombre similar.  
+`name` es de tipo `String` 
 ### Respuesta
 ```
 {
@@ -91,7 +92,8 @@ Entrega todos los productos que tengan un nombre similar.
 ```
 ### `GET /api/productos/filter/:id`
 Recibe de parametro la ID de una categoria.  
-Entrega la lista de productos que corresponden a la categoria.
+Entrega la lista de productos que corresponden a la categoria.  
+`id` es de tipo `int`
 ### Ejemplo
 `GET /api/productos/filter/4`
 ### Respuesta
